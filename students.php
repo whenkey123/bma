@@ -6,18 +6,35 @@ if (!isLoggedIn()) {
 }
 $user = $_SESSION['user'];
 if($_SERVER['REQUEST_METHOD']=="POST") {
-  $roll=$_POST['roll'];
-  $name=$_POST['name'];
-  $department=$_POST['department'];
-  $phone=$_POST['phone'];
-  $current_time = time();
-  $sql="INSERT INTO `students` (`id`, `roll_number`, `name`, `department`, `phone`, `added_at`) VALUES (NULL, '$roll', '$name', '$department', '$phone', '$current_time');";
-  if(mysqli_query($con, $sql)) {
-    header('Location: students.php?alert=add');
-    exit();
-  }else {
-    header('Location: students.php?alert=exists');
-    exit();
+  if ($_POST['form']=="add") {
+    $fingerprint_id=$_POST['fingerprint_id'];
+    $roll=strtoupper($_POST['roll']);
+    $name=ucwords($_POST['name']);
+    $department=$_POST['department'];
+    $phone=$_POST['phone'];
+    $current_time = time();
+    $sql="INSERT INTO `students` (`id`, `roll_number`, `name`, `department`, `phone`, `fingerprint_id`, `added_at`) VALUES (NULL, '$roll', '$name', '$department', '$phone', '$fingerprint_id', '$current_time');";
+    if(mysqli_query($con, $sql)) {
+      header('Location: students.php?alert=add');
+      exit();
+    }else {
+      header('Location: students.php?alert=exists');
+      exit();
+    }
+  }else if ($_POST['form']=="delete") {
+    $id = $_POST['id'];
+    $sql = "DELETE FROM students WHERE id='$id'";
+    if(mysqli_query($con, $sql)) {
+      header('Location: students.php?alert=delete');
+      exit();
+    }
+  }else if ($_POST['form']=="unlink") {
+    $id = $_POST['id'];
+    $sql = "UPDATE `students` SET `fingerprint_id` = '' WHERE id='$id'";
+    if(mysqli_query($con, $sql)) {
+      header('Location: students.php?alert=unlink');
+      exit();
+    }
   }
   header('Location: students.php?alert=error');
   exit();
@@ -72,26 +89,32 @@ if($_SERVER['REQUEST_METHOD']=="POST") {
               Add New Student
             </button>
           </div>
-          <div class="collapse mt-3" id="collapseExample">
+          <!-- <div class="collapse mt-3" id="collapseExample"> -->
+          <div class="mt-3" id="collapseExample">
             <div class="card">
               <div class="card-header d-inline">
                 Add New Student
               </div>
               <div class="card-body">
                 <form class="row g-3" action="" method="POST">
-                  <div class="col-md-3">
-                    <label class="form-label">Roll Number</label>
-                    <input type="text" class="form-control" name="roll" placeholder="Roll Number" required>
+                  <input name="form" value="add" class="d-none">
+                  <div class="col-md-2">
+                    <label class="form-label">Finger Print Id</label>
+                    <input type="number" class="form-control" name="fingerprint_id" placeholder="Finger Print Id" min="1" max="1000" required>
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-2">
+                    <label class="form-label">Roll Number</label>
+                    <input type="text" class="form-control" name="roll" placeholder="Roll Number" minlength="10" required>
+                  </div>
+                  <div class="col-md-4">
                     <label class="form-label">Name</label>
                     <input type="text" class="form-control" name="name" placeholder="Name" autocomplete="off" required>
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-2">
                     <label class="form-label">Phone Number</label>
                     <input type="text" class="form-control" name="phone" placeholder="Phone Number" minlength="10" maxlength="10" autocomplete="off" onkeypress="return isNumber(event)">
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-2">
                     <label class="form-label">Department</label>
                     <select class="form-control" name="department" required>
                       <option value="">Select</option>
@@ -109,46 +132,105 @@ if($_SERVER['REQUEST_METHOD']=="POST") {
               </div>
             </div>
           </div>
-          <div class="col-12">
-
+          <div class="col-12 mt-4">
+            <div class="card">
+              <div class="card-header">
+                Active Students
+              </div>
+              <div class="card-body p-0">
+                <div class="table-responsive">
+                  <table class="table table-hover mb-0">
+                    <thead>
+                      <tr>
+                        <th scope="col">Finger Print Id</th>
+                        <th scope="col">Roll Number</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Phone Number</th>
+                        <th scope="col">Department</th>
+                        <th scope="col">Added At</th>
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php
+                      $query=mysqli_query($con, "SELECT * FROM students WHERE fingerprint_id!='';");
+                      while($row = mysqli_fetch_array($query)) {
+                        $delete_html = '';
+                        $unlink_html = '';
+                        if ($user['id']==1) {
+                          $delete_html = '<form style="display: inline;" action="" method="POST">
+                          <input name="form" value="delete" class="d-none">
+                          <input name="id" value="'.$row['id'].'" class="d-none">
+                          <button class="btn btn-sm btn-outline-danger">Delete</button>
+                          </form>';
+                          $unlink_html = '<form style="display: inline;" action="" method="POST">
+                          <input name="form" value="unlink" class="d-none">
+                          <input name="id" value="'.$row['id'].'" class="d-none">
+                          <button class="btn btn-sm btn-outline-danger">Unlink</button>
+                          </form>';
+                        }
+                        echo('<tr>
+                          <th scope="row">'.$row['fingerprint_id'].'</th>
+                          <td>'.$row['roll_number'].'</td>
+                          <td>'.$row['name'].'</td>
+                          <td>'.$row['phone'].'</td>
+                          <td>'.$row['department'].'</td>
+                          <td>'.date('d/m/Y h:i A', $row['added_at']).'</td>
+                          <td class="align-right">'.$unlink_html.$delete_html.'</td>
+                        </tr>');
+                      }
+                      ?>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="col-12 mt-4">
             <div class="card">
               <div class="card-header">
-                Admins
+                InActive Students
               </div>
               <div class="card-body p-0">
-                <table class="table table-hover mb-0">
-                  <thead>
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Name</th>
-                      <th scope="col">Email</th>
-                      <th scope="col"></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <?php
-                    $query=mysqli_query($con, "SELECT * FROM admins;");
-                    while($row = mysqli_fetch_array($query)) {
-                      $delete_html = '';
-                      if ($user['id']==1 && $row['id']!=1) {
-                        $delete_html = '<form action="" method="POST">
-                        <input name="form" value="delete" class="d-none">
-                        <input name="id" value="'.$row['id'].'" class="d-none">
-                        <button class="btn btn-sm btn-outline-danger">Delete</button>
-                        </form>';
+                <div class="table-responsive">
+                  <table class="table table-hover mb-0">
+                    <thead>
+                      <tr>
+                        <th scope="col">Finger Print Id</th>
+                        <th scope="col">Roll Number</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Phone Number</th>
+                        <th scope="col">Department</th>
+                        <th scope="col">Added At</th>
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php
+                      $query=mysqli_query($con, "SELECT * FROM students WHERE fingerprint_id='';");
+                      while($row = mysqli_fetch_array($query)) {
+                        $delete_html = '';
+                        if ($user['id']==1) {
+                          $delete_html = '<form action="" method="POST">
+                          <input name="form" value="delete" class="d-none">
+                          <input name="id" value="'.$row['id'].'" class="d-none">
+                          <button class="btn btn-sm btn-outline-danger">Delete</button>
+                          </form>';
+                        }
+                        echo('<tr>
+                          <td scope="row">Not Added</td>
+                          <td>'.$row['roll_number'].'</td>
+                          <td>'.$row['name'].'</td>
+                          <td>'.$row['phone'].'</td>
+                          <td>'.$row['department'].'</td>
+                          <td>'.date('d/m/Y h:i A', $row['added_at']).'</td>
+                          <td class="align-right">'.$delete_html.'</td>
+                        </tr>');
                       }
-                      echo('<tr>
-                        <th scope="row">'.$row['id'].'</th>
-                        <td>'.$row['name'].'</td>
-                        <td>'.$row['email'].'</td>
-                        <td class="align-right">'.$delete_html.'</td>
-                      </tr>');
-                    }
-                    ?>
-                  </tbody>
-                </table>
+                      ?>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
@@ -166,8 +248,11 @@ if($_SERVER['REQUEST_METHOD']=="POST") {
           }else if (alert_key == "delete") {
             confirm('Student deleted successfully');
             window.location.href = 'students.php';
+          }else if (alert_key == "unlink") {
+            confirm('Student finger print id unlinked');
+            window.location.href = 'students.php';
           }else if (alert_key == "exists") {
-            confirm('Student already exists with the same roll number');
+            confirm('Student already exists with the same Roll number or Finger print id');
             window.location.href = 'students.php';
           }else if (alert_key == "error") {
             confirm('Error while performing action');

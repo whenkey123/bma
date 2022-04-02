@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 02, 2022 at 05:46 PM
+-- Generation Time: Apr 02, 2022 at 07:12 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.11
 
@@ -73,7 +73,8 @@ ALTER TABLE `admins`
 --
 ALTER TABLE `students`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `roll_number` (`roll_number`);
+  ADD UNIQUE KEY `roll_number` (`roll_number`),
+  ADD UNIQUE KEY `fingerprint_id` (`fingerprint_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
