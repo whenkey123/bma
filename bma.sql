@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 26, 2022 at 04:38 PM
+-- Generation Time: Apr 02, 2022 at 05:46 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.11
 
@@ -39,8 +39,7 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `name`, `email`, `password`) VALUES
-(1, 'Master Admin', 'whenkey123@gmail.com', 'password@123'),
-(17, 'Syed Sharief', 'syedsharief@gmail.com', 'password@123');
+(1, 'Master Admin', 'masteradmin@gmail.com', 'password@123');
 
 -- --------------------------------------------------------
 
@@ -57,13 +56,6 @@ CREATE TABLE `students` (
   `fingerprint_id` varchar(100) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `added_at` varchar(100) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `students`
---
-
-INSERT INTO `students` (`id`, `roll_number`, `name`, `department`, `phone`, `fingerprint_id`, `added_at`) VALUES
-(1, '16A31B0547', 'Venkat', 'CSE', '9160917765', '', '1647689368');
 
 --
 -- Indexes for dumped tables
@@ -91,13 +83,13 @@ ALTER TABLE `students`
 -- AUTO_INCREMENT for table `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
