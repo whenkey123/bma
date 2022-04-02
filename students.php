@@ -89,8 +89,7 @@ if($_SERVER['REQUEST_METHOD']=="POST") {
               Add New Student
             </button>
           </div>
-          <!-- <div class="collapse mt-3" id="collapseExample"> -->
-          <div class="mt-3" id="collapseExample">
+          <div class="collapse mt-3" id="collapseExample">
             <div class="card">
               <div class="card-header d-inline">
                 Add New Student
