@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
       </nav>
       <div class="container" style="margin-top: 100px;">
         <div class="row justify-content-md-center">
-          <div class="col-12">
+          <div class="col-12 <?php echo(($user['id']==1 && $row['id']!=1)?'':'d-none'); ?>">
             <div class="card">
               <div class="card-header">
                 Add New Admin

@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"]=="POST") {
       <img class="mb-4" src="https://via.placeholder.com/100x100.png?text=LOGO" alt="" width="100" height="100">
       <h1 class="h3 mb-3 fw-normal">IoT Biometric Admin</h1>
       <div class="form-floating">
-        <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" value="whenkey123@gmail.com" required>
+        <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" value="masteradmin@gmail.com" required>
         <label for="email">Email address</label>
       </div>
       <div class="form-floating">
