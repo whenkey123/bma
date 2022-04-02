@@ -28,13 +28,6 @@ if($_SERVER['REQUEST_METHOD']=="POST") {
       header('Location: students.php?alert=delete');
       exit();
     }
-  }else if ($_POST['form']=="unlink") {
-    $id = $_POST['id'];
-    $sql = "UPDATE `students` SET `fingerprint_id` = '' WHERE id='$id'";
-    if(mysqli_query($con, $sql)) {
-      header('Location: students.php?alert=unlink');
-      exit();
-    }
   }
   header('Location: students.php?alert=error');
   exit();
@@ -83,7 +76,7 @@ if($_SERVER['REQUEST_METHOD']=="POST") {
          </div>
       </nav>
       <div class="container" style="margin-top: 100px;">
-        <div class="row">
+        <div class="row <?php echo(($user['id']==1)?'':'d-none'); ?>">
           <div class="col-12 align-right">
             <button class="btn btn-outline-primary pull-right" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
               Add New Student
@@ -131,6 +124,8 @@ if($_SERVER['REQUEST_METHOD']=="POST") {
               </div>
             </div>
           </div>
+        </div>
+        <div class="row">
           <div class="col-12 mt-4">
             <div class="card">
               <div class="card-header">
@@ -155,69 +150,15 @@ if($_SERVER['REQUEST_METHOD']=="POST") {
                       $query=mysqli_query($con, "SELECT * FROM students WHERE fingerprint_id!='';");
                       while($row = mysqli_fetch_array($query)) {
                         $delete_html = '';
-                        $unlink_html = '';
                         if ($user['id']==1) {
                           $delete_html = '<form style="display: inline;" action="" method="POST">
                           <input name="form" value="delete" class="d-none">
                           <input name="id" value="'.$row['id'].'" class="d-none">
                           <button class="btn btn-sm btn-outline-danger">Delete</button>
                           </form>';
-                          $unlink_html = '<form style="display: inline;" action="" method="POST">
-                          <input name="form" value="unlink" class="d-none">
-                          <input name="id" value="'.$row['id'].'" class="d-none">
-                          <button class="btn btn-sm btn-outline-danger">Unlink</button>
-                          </form>';
                         }
                         echo('<tr>
                           <th scope="row">'.$row['fingerprint_id'].'</th>
-                          <td>'.$row['roll_number'].'</td>
-                          <td>'.$row['name'].'</td>
-                          <td>'.$row['phone'].'</td>
-                          <td>'.$row['department'].'</td>
-                          <td>'.date('d/m/Y h:i A', $row['added_at']).'</td>
-                          <td class="align-right">'.$unlink_html.$delete_html.'</td>
-                        </tr>');
-                      }
-                      ?>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12 mt-4">
-            <div class="card">
-              <div class="card-header">
-                InActive Students
-              </div>
-              <div class="card-body p-0">
-                <div class="table-responsive">
-                  <table class="table table-hover mb-0">
-                    <thead>
-                      <tr>
-                        <th scope="col">Finger Print Id</th>
-                        <th scope="col">Roll Number</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Phone Number</th>
-                        <th scope="col">Department</th>
-                        <th scope="col">Added At</th>
-                        <th scope="col"></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <?php
-                      $query=mysqli_query($con, "SELECT * FROM students WHERE fingerprint_id='';");
-                      while($row = mysqli_fetch_array($query)) {
-                        $delete_html = '';
-                        if ($user['id']==1) {
-                          $delete_html = '<form action="" method="POST">
-                          <input name="form" value="delete" class="d-none">
-                          <input name="id" value="'.$row['id'].'" class="d-none">
-                          <button class="btn btn-sm btn-outline-danger">Delete</button>
-                          </form>';
-                        }
-                        echo('<tr>
-                          <td scope="row">Not Added</td>
                           <td>'.$row['roll_number'].'</td>
                           <td>'.$row['name'].'</td>
                           <td>'.$row['phone'].'</td>
@@ -246,9 +187,6 @@ if($_SERVER['REQUEST_METHOD']=="POST") {
             window.location.href = 'students.php';
           }else if (alert_key == "delete") {
             confirm('Student deleted successfully');
-            window.location.href = 'students.php';
-          }else if (alert_key == "unlink") {
-            confirm('Student finger print id unlinked');
             window.location.href = 'students.php';
           }else if (alert_key == "exists") {
             confirm('Student already exists with the same Roll number or Finger print id');
