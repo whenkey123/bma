@@ -147,7 +147,7 @@ if($_SERVER['REQUEST_METHOD']=="POST") {
                     </thead>
                     <tbody>
                       <?php
-                      $query=mysqli_query($con, "SELECT * FROM students WHERE fingerprint_id!='';");
+                      $query=mysqli_query($con, "SELECT * FROM students;");
                       while($row = mysqli_fetch_array($query)) {
                         $delete_html = '';
                         if ($user['id']==1) {
