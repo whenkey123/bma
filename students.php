@@ -110,6 +110,7 @@ if($_SERVER['REQUEST_METHOD']=="POST") {
                     <label class="form-label">Department</label>
                     <select class="form-control" name="department" required>
                       <option value="">Select</option>
+                      <option value="IT">IT</option>
                       <option value="CSE">CSE</option>
                       <option value="ECE">ECE</option>
                       <option value="EEE">EEE</option>
