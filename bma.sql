@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 02, 2022 at 07:12 PM
+-- Generation Time: Apr 03, 2022 at 10:23 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.11
 
@@ -57,6 +57,21 @@ CREATE TABLE `students` (
   `added_at` varchar(100) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student_attendance`
+--
+
+CREATE TABLE `student_attendance` (
+  `id` int(100) NOT NULL,
+  `roll_number` varchar(100) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
+  `name` varchar(100) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
+  `phone` varchar(100) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
+  `department` varchar(10) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
+  `entry_time` varchar(100) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 --
 -- Indexes for dumped tables
 --
@@ -77,6 +92,12 @@ ALTER TABLE `students`
   ADD UNIQUE KEY `fingerprint_id` (`fingerprint_id`);
 
 --
+-- Indexes for table `student_attendance`
+--
+ALTER TABLE `student_attendance`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -90,6 +111,12 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `student_attendance`
+--
+ALTER TABLE `student_attendance`
   MODIFY `id` int(100) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
