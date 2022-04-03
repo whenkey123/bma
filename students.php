@@ -130,7 +130,7 @@ if($_SERVER['REQUEST_METHOD']=="POST") {
           <div class="col-12 mt-4">
             <div class="card">
               <div class="card-header">
-                Active Students
+                Students
               </div>
               <div class="card-body p-0">
                 <div class="table-responsive">
