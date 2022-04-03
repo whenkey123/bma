@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 03, 2022 at 10:23 AM
+-- Generation Time: Apr 03, 2022 at 06:47 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.11
 
@@ -69,7 +69,8 @@ CREATE TABLE `student_attendance` (
   `name` varchar(100) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `phone` varchar(100) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `department` varchar(10) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
-  `entry_time` varchar(100) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL
+  `entry_time` varchar(100) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
+  `status` varchar(100) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
