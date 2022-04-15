@@ -26,13 +26,19 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['sql'])) {
       }
       $data=array_values($item);
       $data[0]=$count;
-      $data[5]=date('d/m/Y h:i A', $data[5]);
-      $exit_time='Not Reported Yet';
-      if ($data[6]!="") {
-        $exit_time=date('d/m/Y h:i A', $data[6]);
+      if (isset($data[5])) {
+        $data[5]=date('d/m/Y h:i A', $data[5]);
       }
-      $data[6]=$exit_time;
-      $data[7]=$data[7]." Entry";
+      if (isset($data[6])) {
+        $exit_time='Not Reported Yet';
+        if ($data[6]!="") {
+          $exit_time=date('d/m/Y h:i A', $data[6]);
+        }
+        $data[6]=$exit_time;
+      }
+      if (isset($data[5])) {
+        $data[7]=$data[7]." Entry";
+      }
       echo implode("\t", $data) . "\n";
     }
   }
