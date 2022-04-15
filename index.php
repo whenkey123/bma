@@ -115,7 +115,7 @@ if (isset($_POST['entry_type']) and $_POST['entry_type']!="ALL") {
                         <th>Phone</th>
                         <th>Entry Time</th>
                         <th>Exit Time</th>
-                        <th>Status</th>
+                        <th>Entry Status</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -138,7 +138,7 @@ if (isset($_POST['entry_type']) and $_POST['entry_type']!="ALL") {
                         <td>'.$row['phone'].'</td>
                         <td>'.$entry_time.'</td>
                         <td>'.$exit_time.'</td>
-                        <td>'.$row['status'].'</td>
+                        <td>'.$row['status'].' Entry</td>
                         </tr>');
                       }
                       if($i==0) {
