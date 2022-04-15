@@ -143,6 +143,13 @@ if (isset($_POST['entry_type']) and $_POST['entry_type']!="ALL") {
                       }
                       if($i==0) {
                         echo('<tr class="alert-primary text-center"><td colspan="8">No Details Found</td></tr>');
+                      }else {
+                        echo('<tr><td class="text-center" colspan="8">
+                        <form action="export_data.php" method="POST" target="_blank">
+                        <input type="hidden" name="sql" value="'.$sql.'">
+                        <button class="btn btn-sm btn-outline-primary" type="submit">Export Data as Excel</button>
+                        </form>
+                        </td></tr>');
                       }
                       ?>
                     </tbody>
