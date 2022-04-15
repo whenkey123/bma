@@ -91,8 +91,9 @@ if (isset($_POST['entry_type']) and $_POST['entry_type']!="ALL") {
             <label class="form-label">Entry</label>
             <select class="form-control" name="entry_type" required>
               <option value="ALL">All</option>
-              <option value="intime">In-Time</option>
-              <option value="late">Late Entry</option>
+              <option value="Early">Early Entry</option>
+              <option value="InTime">InTime Entry</option>
+              <option value="Late">Late Entry</option>
             </select>
           </div>
           <div class="col-lg-3 col-md-2 mt-5">
@@ -103,39 +104,50 @@ if (isset($_POST['entry_type']) and $_POST['entry_type']!="ALL") {
           <div class="col-12">
             <div class="card">
               <div class="card-body p-0">
-                <table class="table w-100 mb-0">
-                  <thead>
-                    <tr>
-                      <th>S.No</th>
-                      <th>Roll Number</th>
-                      <th>Name</th>
-                      <th>Department</th>
-                      <th>Phone</th>
-                      <th>Time</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <?php
-                    $sql="SELECT * FROM `student_attendance` ".$filter_query." ORDER BY `student_attendance`.`id` DESC;";
-                    $query=mysqli_query($con, $sql);
-                    $i=0;
-                    while($row=mysqli_fetch_array($query)) {
-                      $i++;
-                      echo('<tr class="'.(($row['status']=="intime")?'alert-success':'alert-danger').'">
-                      <td>'.$i.'</td>
-                      <td>'.$row['roll_number'].'</td>
-                      <td>'.$row['name'].'</td>
-                      <td>'.$row['department'].'</td>
-                      <td>'.$row['phone'].'</td>
-                      <td>'.date('d/m/Y h:i A', $row['entry_time']).'</td>
-                      </tr>');
-                    }
-                    if($i==0) {
-                      echo('<tr class="alert-primary text-center"><td colspan="6">No Details Found</td></tr>');
-                    }
-                    ?>
-                  </tbody>
-                </table>
+                <div class="table-responsive">
+                  <table class="table w-100 mb-0">
+                    <thead>
+                      <tr>
+                        <th>S.No</th>
+                        <th>Roll Number</th>
+                        <th>Name</th>
+                        <th>Department</th>
+                        <th>Phone</th>
+                        <th>Entry Time</th>
+                        <th>Exit Time</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php
+                      $sql="SELECT * FROM `student_attendance` ".$filter_query." ORDER BY `student_attendance`.`id` DESC;";
+                      $query=mysqli_query($con, $sql);
+                      $i=0;
+                      while($row=mysqli_fetch_array($query)) {
+                        $i++;
+                        $entry_time=date('d/m/Y h:i A', $row['entry_time']);
+                        $exit_time='Not Reported Yet';
+                        if (isset($row['exit_time']) && $row['exit_time']!="") {
+                          $exit_time=date('d/m/Y h:i A', $row['exit_time']);
+                        }
+                        echo('<tr class="'.displayRowColour($row['status']).'">
+                        <td>'.$i.'</td>
+                        <td>'.$row['roll_number'].'</td>
+                        <td>'.$row['name'].'</td>
+                        <td>'.$row['department'].'</td>
+                        <td>'.$row['phone'].'</td>
+                        <td>'.$entry_time.'</td>
+                        <td>'.$exit_time.'</td>
+                        <td>'.$row['status'].'</td>
+                        </tr>');
+                      }
+                      if($i==0) {
+                        echo('<tr class="alert-primary text-center"><td colspan="8">No Details Found</td></tr>');
+                      }
+                      ?>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>

@@ -56,8 +56,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
          </div>
       </nav>
       <div class="container" style="margin-top: 100px;">
-        <div class="row justify-content-md-center">
-          <div class="col-6">
+        <div class="row justify-content-center">
+          <div class="col-lg-6 col-md-8">
             <div class="card">
               <div class="card-header">
                 Profile / Change Password
