@@ -17,12 +17,12 @@ if (isset($_GET['fingerprint_id'])) {
     }
     $sql="INSERT INTO `student_attendance` (`id`, `roll_number`, `name`, `phone`, `department`, `entry_time`, `status`) VALUES (NULL, '$roll_number', '$name', '$phone', '$department', '$current_time', '$status');";
     if (mysqli_query($con, $sql)) {
-      echo("Attendance Taken");
+      echo($roll_number.",".$status." Attendance");
     }else {
-      echo("Attendance Error");
+      echo("Server Error 1,");
     }
   }else {
-    echo("No Student Found");
+    echo("No Student Found,with your print");
   }
 }
 ?>
