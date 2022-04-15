@@ -7,7 +7,7 @@ if (!isLoggedIn()) {
 $user=$_SESSION['user'];
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
   if ($_POST['form']=="new") {
-    $name=$_POST['name'];
+    $name=ucwords(strtolower($_POST['name']));
     $email=$_POST['email'];
     $sql = "INSERT INTO admins (`id`, `name`, `email`, `password`) VALUES (NULL, '$name', '$email', 'password@123')";
     if(mysqli_query($con, $sql)) {

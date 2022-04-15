@@ -9,7 +9,7 @@ if($_SERVER['REQUEST_METHOD']=="POST") {
   if ($_POST['form']=="add") {
     $fingerprint_id=$_POST['fingerprint_id'];
     $roll=strtoupper($_POST['roll']);
-    $name=ucwords($_POST['name']);
+    $name=ucwords(strtolower($_POST['name']));
     $department=$_POST['department'];
     $phone=$_POST['phone'];
     $current_time = time();
